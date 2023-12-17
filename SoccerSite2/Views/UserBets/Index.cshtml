@@ -1,0 +1,73 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model UserBetsPageModel
+
+<div style="display:flex; width: 100%;" >
+    <h2 style="width: 50%;">@User.Identity.Name</h2>
+    <h2 style="width: 50%;">Balance = @(Model.userAccount.Balance.ToString("C2"))</h2>
+</div>
+
+<form method="post">
+    <fieldset>
+        <button type="submit" class="btn btn-primary">Update Latest Bet Status</button>
+    </fieldset>
+</form>
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Bet Name</th>
+                <th scope="col">Bet</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Odds</th>
+                <th scope="col">Result</th>
+                <th scope="col">Winnings</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Bets)
+            {
+            <tr class="table-primary">
+@*                <td scope="col">@item.FixtureName</td>*@
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="UserBets" asp-action="GameStatsView" asp-route-fixtureId="@item.BetSearchId" style="text-decoration-color: blue; color: darkblue">@item.FixtureName</a>
+                    </div>
+                </td>
+                <td scope="col">@item.TeamChoice</td>
+                <td scope="col">@item.Amount.ToString("C2")</td>
+                <td scope="col">+@(Math.Round(item.Odds * 100, 2))</td>
+
+                @{
+                    var res = "Not Completed";
+                    var totalWin = 0.00;
+                    if(item.Result == true)
+                    {
+                        res = "Win";
+                        totalWin = item.Amount * item.Odds;
+                    }
+                    if(item.Result == false && item.Completed == true)
+                    {
+                        res = "Loss";
+                    }
+                }
+
+
+                <td scope="col">@res</td>
+                <td scope="col">@totalWin.ToString("C2")</td>
+
+            </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <br />
+    <br />
+

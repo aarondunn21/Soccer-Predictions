@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<Bet>
+
+@foreach(var item in Model) {
+    
+    <h2>@item.BetName</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Home Odds</th>
+                <th scope="col">Draw Odds</th>
+                <th scope="col">Away Odds</th>
+                <th scope="col">View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-primary">
+                <td scope="col">+@(Math.Round(item.HomeOdd * 100, 2))</td>
+                <td scope="col">+@(Math.Round(item.DrawOdd * 100, 2))</td>
+                <td scope="col">+@(Math.Round(item.AwayOdd * 100, 2))</td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="TodayBets" asp-action="BetView" asp-route-id="@item.BetId" class="btn btn-primary mx-2">Bet</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br />
+    <br />
+    
+}

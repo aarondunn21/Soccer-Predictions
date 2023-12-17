@@ -1,0 +1,99 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model MainPageModel
+
+<h1>@Model.betModel.BetName</h1>
+
+<div id="wg-api-football-game"
+     data-host="api-football-v1.p.rapidapi.com"
+     data-key="2ba5bae8c0msh24bee634dc879acp149f9ajsndb1256776155"
+     data-id=@Model.betModel.Fixture
+     data-theme=""
+     data-refresh="0"
+     data-show-errors="false"
+     data-show-logos="true">
+</div>
+<script type="module"
+        src="https://widgets.api-sports.io/2.0.3/widgets.js">
+</script>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Home Odds</th>
+            <th scope="col">Draw Odds</th>
+            <th scope="col">Away Odds</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-primary">
+            <td>+@(Math.Round(Model.betModel.HomeOdd * 100, 2))</td>
+            <td>+@(Math.Round(Model.betModel.DrawOdd * 100, 2))</td>
+            <td>+@(Math.Round(Model.betModel.AwayOdd * 100, 2))</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<form method="post">
+    <fieldset>
+        <legend>Balance @(Model.userModel.Balance.ToString("C2"))</legend>
+        <div class="form-group">
+            <fieldset>
+                <input asp-for="@Model.betModel" class="form-control" type="hidden" placeholder="@Model.betModel.BetName" readonly="">
+            </fieldset>
+        </div>
+        <div class="form-group">
+@*            <label asp-for="userBetModel.FixtureName" class="form-label mt-4">Fixture Info</label>*@
+            <select hidden asp-for="userBetModel.FixtureName" class="form-select">
+                <option>@Model.betModel.BetName</option>
+            </select>
+        </div>
+@*        <div class="form-group">
+            <label asp-for="userBetModel.Odds" class="form-label mt-4">Bet Choice</label>
+            <select asp-for="userBetModel.Odds" class="form-select">
+                <option value="@Model.betModel.HomeOdd">Home Win</option>
+                <option value="@Model.betModel.DrawOdd">Draw</option>
+                <option value="@Model.betModel.AwayOdd">Away Win</option>
+            </select>
+        </div>*@
+        <fieldset class="form-group">
+            <legend class="mt-4">Bet Choice</legend>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="userBetModel.Odds" value="@Model.betModel.HomeOdd">
+                <label class="form-check-label" asp-for="userBetModel.Odds">
+                    Home (+@(Math.Round(Model.betModel.HomeOdd * 100, 2)))
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio"  asp-for="userBetModel.Odds" value="@Model.betModel.DrawOdd">
+                <label class="form-check-label" asp-for="userBetModel.Odds">
+                    Draw (+@(Math.Round(Model.betModel.DrawOdd * 100, 2)))
+                </label>
+            </div>  
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="userBetModel.Odds" value="@Model.betModel.AwayOdd">
+                <label class="form-check-label" asp-for="userBetModel.Odds">
+                    Away (+@(Math.Round(Model.betModel.AwayOdd * 100, 2)))
+                </label>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <label asp-for="userBetModel.Amount" class="form-label mt-4">Bet Amount</label>
+            <input asp-for="userBetModel.Amount" class="form-control w-auto" />
+@*            <input type="number" class="form-control" asp-formaction="" placeholder="Enter amount to bet">*@
+        </div>
+        <div class="form-group">
+@*            <label asp-for="userBetModel.BetSearchId" class="form-label mt-4">ID</label>*@
+            <select hidden asp-for="userBetModel.BetSearchId" class="form-select">
+                <option>@Model.betModel.Fixture</option>
+            </select>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </fieldset>
+</form>

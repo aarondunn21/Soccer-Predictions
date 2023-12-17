@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Standings";
+}
+
+@model Standings
+
+<div id="wg-api-football-standings"
+     data-host="api-football-v1.p.rapidapi.com"
+     data-key=@Model.key
+     data-league="39"
+     data-team=""
+     data-season=@Model.year
+     data-theme=""
+     data-show-errors="false"
+     data-show-logos="true"
+     class="wg_loader">
+</div>
+<script type="module"
+        src="https://widgets.api-sports.io/2.0.3/widgets.js">
+</script>
+
