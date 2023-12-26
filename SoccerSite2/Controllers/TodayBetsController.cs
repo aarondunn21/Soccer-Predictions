@@ -162,7 +162,18 @@ namespace SoccerSite2.Controllers
             _db.Add(mpm.userBetModel);
             
             User myUser = _db.User.FirstOrDefault(x => x.UserMatch == User.Identity.GetUserId());
-            myUser.Balance -= mpm.userBetModel.Amount;
+
+            if ((myUser.Balance - mpm.userBetModel.Amount) >= 0)
+            {
+                myUser.Balance -= mpm.userBetModel.Amount;
+            }
+            else
+            {
+                return RedirectToAction("Index", "UserBets", new { area = "" });
+            }
+            
+
+
             myUser.Balance = Math.Round(myUser.Balance, 2);
 
 
